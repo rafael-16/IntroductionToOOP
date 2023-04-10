@@ -8,8 +8,8 @@ using namespace std;
 
 class Point
 {
-	double x, x2;
-	double y, y2;
+	double x;
+	double y;
 public:
 	double get_x()const
 	{
@@ -19,14 +19,6 @@ public:
 	{
 		return y;
 	}
-	double get_x2()const
-	{
-		return x2;
-	}
-	double get_y2()const
-	{
-		return y2;
-	}
 	void set_x(double x)
 	{
 		this->x = x;
@@ -35,46 +27,25 @@ public:
 	{
 		this->y = y;
 	}
-	void set_x2(double x2)
-	{
-		this->x2 = x2;
-	}
-	void set_y2(double y2)
-	{
-		this->y2 = y2;
-	}
 
 	// Constructors:
 
 	Point()
 	{
 		x = y = 0;
-		x2 = y2 = 0;
 		cout << "DefaultConstructor:\t" << this << endl;
 	}
 	Point(double x)
 	{
 		this->x = x;
 		this->y = 0;
-		this->x2 = 0;
-		this->y2 = 0;
 		cout << "1ArgConstructor:\t" << this << endl;
 	}
 	Point(double x, double y)
 	{
 		this->x = x;
 		this->y = y;
-		this->x2 = 0;
-		this->y2 = 0;
 		cout << "Constructor:\t\t" << this << endl;
-	}
-	Point(double x, double y, double x2, double y2)
-	{
-		this->x = x;
-		this->y = y;
-		this->x2 = x2;
-		this->y2 = y2;
-		cout << "Constructor of two points:\t\t" << this << endl;
 	}
 	~Point()
 	{
