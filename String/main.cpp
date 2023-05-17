@@ -120,7 +120,7 @@ void main()
 	String str2 = "World";
 	cout << "str2: " << str2 << endl;
 
-	String str3 = str1 + " " + str2;
+	String str3 = str1 + str2;
 	cout << "str3: " << str3 << endl;
 
 #endif // HOME_WORK
