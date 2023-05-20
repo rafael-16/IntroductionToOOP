@@ -27,7 +27,7 @@ public:
 	}
 	//			Constructors:
 
-	String(int size = 0)
+	String(int size = 80)
 	{
 		this->size = size;
 		this->str = new char[size + 1] {};
@@ -102,7 +102,7 @@ String operator+(String left, String right)
 	return new_str;
 }
 
-#define HOME_WORK
+//#define HOME_WORK
 
 void main()
 {
@@ -124,5 +124,6 @@ void main()
 	cout << "str3: " << str3 << endl;
 
 #endif // HOME_WORK
+	String str = "Hello";
 
 }

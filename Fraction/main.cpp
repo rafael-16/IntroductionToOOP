@@ -77,11 +77,12 @@ public:
 
 	Fraction(double decimal_fraction)
 	{
-		int multiplier = 10000;
-		this->integer = (int)decimal_fraction;
-		this->numerator = (decimal_fraction - integer) * multiplier;
-		this->denominator = multiplier;
-		Fraction::reduce();
+		decimal_fraction += 1e-10;
+		this->integer = decimal_fraction;
+		decimal_fraction -= integer;
+		denominator = 1e9;
+		numerator = decimal_fraction*denominator;
+		reduce();
 		cout << "Constructors:\t\t" << this << endl;
 	}
 
