@@ -1,6 +1,9 @@
 ﻿#include<iostream>
-
 using namespace std;
+
+
+class String;
+String operator+(const String& left, const String& right);
 
 class String
 {
@@ -12,44 +15,35 @@ public:
 	{
 		return size;
 	}
-	char* get_str()const
+	const char* get_str()const
 	{
 		return str;
 	}
-	//			Setters:
-	void set_size(int size)
+	char* get_str()
 	{
-		this->size = size;
-	}
-	void set_str(char* str)
-	{
-		this->str = str;
+		return str;
 	}
 	//			Constructors:
 
-	String(int size = 80)
+	explicit String(int size = 80) :size(size), str(new char[size] {})
 	{
-		this->size = size;
-		this->str = new char[size + 1] {};
-		cout << "Constructor:\t" << this << endl;
+		cout << "DefConstructor:\t\t" << this << endl;
 	}
-	String(const char* str)
+	String(const char* str) :size(strlen(str) + 1), str(new char[size] {})
 	{
-		this->size = strlen(str);
-		this->str = new char[size + 1];
-		for (int i = 0; i < size; i++)
-			this->str[i] = str[i];
-		this->str[size] = '\0';
-		cout << "1WordConstructor:\t" << this << endl;
+		for (int i = 0; i < size; i++)this->str[i] = str[i];
+		cout << "Constructor:\t\t" << this << endl;
 	}
-	String(const String& other)
+	String(const String& other) :size(other.size), str(new char[size] {})
 	{
-		this->size = other.size;
-		this->str = new char[size+1];
-		for (int i = 0; i < size; i++)
-			this->str[i] = other.str[i];
-		str[size] = '\0';
+		for (int i = 0; i < size; i++)this->str[i] = other.str[i];
 		cout << "CopyConstructor:\t" << this << endl;
+	}
+	String(String&& other) :size(other.size), str(other.str)
+	{
+		other.size = 0;
+		other.str = nullptr;
+		cout << "MoveConstructor:\t" << this << endl;
 	}
 	~String()
 	{
@@ -59,71 +53,100 @@ public:
 
 	//			Operators:
 
-	String& operator=(const String& others)
+	String& operator=(const String& other)
 	{
-		this->size = others.size;
-		this->str = new char[size + 1];
+		if (this == &other)return *this;
+		delete[] str;
+		this->size = other.size;
+		this->str = new char[size] {};
 		for (int i = 0; i < size; i++)
-			this->str[i] = others.str[i];
-		this->str[size] = '\0';
-		cout << "CopyAssignment:\t" << this << endl;
+			this->str[i] = other.str[i];
+		cout << "CopyAssignment:\t\t" << this << endl;
 		return *this;
+	}
+	String& operator=(String&& other)
+	{
+		delete[] str;
+		this->size = other.size;
+		this->str = other.str;
+		other.size = 0;
+		other.str = nullptr;
+		cout << "MoveAssignment:\t\t" << this << endl;
+		return *this;
+	}
+	String& operator+=(const String& other)
+	{
+		return *this = *this + other;
+	}
+	char operator[](int i)const
+	{
+		return str[i];
+	}
+	char& operator[](int i)
+	{
+		return str[i];
 	}
 
 	//			Methods:
 
 	void print()const
 	{
-		cout << "size: " << size << endl;
-		cout << "str: " << str << endl;
+		cout << "SIZE: " << size << endl;
+		cout << "STR: " << str << endl;
 	}
 };
 
+
+
+String   operator+(const String& left, const String& right)
+{
+	String cat(left.get_size() + right.get_size() - 1);
+	for (int i = 0; i < left.get_size(); i++)
+		cat[i] = left[i];
+	for (int i = 0; i < right.get_size(); i++)
+		cat[i + left.get_size() - 1] = right[i];
+	return cat;
+}
+
 std::ostream& operator<<(std::ostream& os, const String& obj)
 {
-	os << obj.get_str();
-	return os;
+	return os << obj.get_str();
 }
 
-String operator+(String left, String right)
-{
-	int new_size = left.get_size() + right.get_size();
-	char* new_str = new char[new_size + 1];
-	new_str[new_size] = '\0';
-	for (int i = 0; left.get_str()[i] != '\0'; i++)
-	{
-		new_str[i] = left.get_str()[i];
-	}
-	for (int i = 0; right.get_str()[i] != '\0'; i++)
-	{
-		new_str[left.get_size() + i] = right.get_str()[i];
-	}
+#define HOME_WORK
+//#define CONSTRUCTORS_CALLING
 
-	return new_str;
-}
-
-//#define HOME_WORK
 
 void main()
 {
 	setlocale(LC_ALL, "");
 
-	//cout << "Hello, String!" << endl;
-	//String str;
-	//str.print();
-
-
 #ifdef HOME_WORK
 	String str1 = "Hello";
-	cout << "str1: " << str1 << endl;
+	str1 = str1;
+	cout << str1 << endl;
 
 	String str2 = "World";
-	cout << "str2: " << str2 << endl;
+	cout << str2 << endl;
 
 	String str3 = str1 + str2;
-	cout << "str3: " << str3 << endl;
+	//cout << str3 << endl;
+	String str4 = str2 + str1;
+	cout << str4 << endl;
+
+	//String str3;
+	//str3 = str1 + str2;
+	cout << str3 << endl;
 
 #endif // HOME_WORK
-	String str = "Hello";
+
+#ifdef CONSTRUCTORS_CALLING
+	String str1;
+	str1.print();
+
+	String str2{ "Привет" };
+	str2.print();
+#endif // CONSTRUCTORS_CALLING
+
 
 }
