@@ -98,7 +98,7 @@ public:
 
 
 
-String   operator+(const String& left, const String& right)
+String operator+(const String& left, const String& right)
 {
 	String cat(left.get_size() + right.get_size() - 1);
 	for (int i = 0; i < left.get_size(); i++)
