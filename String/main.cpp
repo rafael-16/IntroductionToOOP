@@ -29,14 +29,13 @@ public:
 	{
 		cout << "DefConstructor:\t\t" << this << endl;
 	}
-	String(const char* str) :size(strlen(str) + 1), str(new char[size] {})
+	String(const char* str) :String(strlen(str) + 1)
 	{
 		for (int i = 0; i < size; i++)this->str[i] = str[i];
 		cout << "Constructor:\t\t" << this << endl;
 	}
-	String(const String& other) :size(other.size), str(new char[size] {})
+	String(const String& other) :String(other.str)
 	{
-		for (int i = 0; i < size; i++)this->str[i] = other.str[i];
 		cout << "CopyConstructor:\t" << this << endl;
 	}
 	String(String&& other) :size(other.size), str(other.str)
@@ -137,6 +136,9 @@ void main()
 	//String str3;
 	//str3 = str1 + str2;
 	cout << str3 << endl;
+
+	String str5 = str2;
+	cout << str5 << endl;
 
 #endif // HOME_WORK
 
